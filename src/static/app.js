@@ -27,16 +27,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Dark mode elements
   const darkModeToggle = document.getElementById("dark-mode-toggle");
-  const darkModeIcon = darkModeToggle.querySelector(".icon");
-  const darkModeText = darkModeToggle.querySelector("span:not(.icon)");
+  const darkModeIcon = darkModeToggle?.querySelector(".icon");
+  const darkModeText = darkModeToggle?.querySelector("span:not(.icon)");
 
   // Initialize dark mode
   function initializeDarkMode() {
+    if (!darkModeToggle) return;
+
     const darkModeEnabled = localStorage.getItem("darkMode") === "enabled";
+    // Remove the init class if it was applied
+    document.documentElement.classList.remove("dark-mode-init");
+
     if (darkModeEnabled) {
       document.body.classList.add("dark-mode");
-      darkModeIcon.textContent = "☀️";
-      darkModeText.textContent = "Light Mode";
+      if (darkModeIcon) darkModeIcon.textContent = "☀️";
+      if (darkModeText) darkModeText.textContent = "Light Mode";
+      darkModeToggle.setAttribute("aria-label", "Switch to light mode");
+    } else {
+      darkModeToggle.setAttribute("aria-label", "Switch to dark mode");
     }
   }
 
@@ -47,17 +55,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (isDarkMode) {
       localStorage.setItem("darkMode", "enabled");
-      darkModeIcon.textContent = "☀️";
-      darkModeText.textContent = "Light Mode";
+      if (darkModeIcon) darkModeIcon.textContent = "☀️";
+      if (darkModeText) darkModeText.textContent = "Light Mode";
+      if (darkModeToggle) darkModeToggle.setAttribute("aria-label", "Switch to light mode");
     } else {
       localStorage.setItem("darkMode", "disabled");
-      darkModeIcon.textContent = "🌙";
-      darkModeText.textContent = "Dark Mode";
+      if (darkModeIcon) darkModeIcon.textContent = "🌙";
+      if (darkModeText) darkModeText.textContent = "Dark Mode";
+      if (darkModeToggle) darkModeToggle.setAttribute("aria-label", "Switch to dark mode");
     }
   }
 
   // Event listener for dark mode toggle
-  darkModeToggle.addEventListener("click", toggleDarkMode);
+  if (darkModeToggle) {
+    darkModeToggle.addEventListener("click", toggleDarkMode);
+  }
 
   // Activity categories with corresponding colors
   const activityTypes = {

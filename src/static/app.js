@@ -28,15 +28,16 @@ document.addEventListener("DOMContentLoaded", () => {
   // Dark mode elements
   const darkModeToggle = document.getElementById("dark-mode-toggle");
   const darkModeIcon = darkModeToggle?.querySelector(".icon");
-  const darkModeText = darkModeToggle?.querySelector("span:not(.icon)");
+  const darkModeText = darkModeToggle?.querySelector(".button-text");
 
   // Initialize dark mode
   function initializeDarkMode() {
     if (!darkModeToggle) return;
 
     const darkModeEnabled = localStorage.getItem("darkMode") === "enabled";
-    // Remove the init class if it was applied
+    // Remove the init class if it was applied and clear inline styles
     document.documentElement.classList.remove("dark-mode-init");
+    document.documentElement.style.cssText = "";
 
     if (darkModeEnabled) {
       document.body.classList.add("dark-mode");

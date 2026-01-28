@@ -25,6 +25,53 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeLoginModal = document.querySelector(".close-login-modal");
   const loginMessage = document.getElementById("login-message");
 
+  // Dark mode elements
+  const darkModeToggle = document.getElementById("dark-mode-toggle");
+  const darkModeIcon = darkModeToggle?.querySelector(".icon");
+  const darkModeText = darkModeToggle?.querySelector(".button-text");
+
+  // Initialize dark mode
+  function initializeDarkMode() {
+    if (!darkModeToggle) return;
+
+    const darkModeEnabled = localStorage.getItem("darkMode") === "enabled";
+    // Remove the init class if it was applied and clear inline styles
+    document.documentElement.classList.remove("dark-mode-init");
+    document.documentElement.style.cssText = "";
+
+    if (darkModeEnabled) {
+      document.body.classList.add("dark-mode");
+      if (darkModeIcon) darkModeIcon.textContent = "☀️";
+      if (darkModeText) darkModeText.textContent = "Light Mode";
+      darkModeToggle.setAttribute("aria-label", "Switch to light mode");
+    } else {
+      darkModeToggle.setAttribute("aria-label", "Switch to dark mode");
+    }
+  }
+
+  // Toggle dark mode
+  function toggleDarkMode() {
+    document.body.classList.toggle("dark-mode");
+    const isDarkMode = document.body.classList.contains("dark-mode");
+
+    if (isDarkMode) {
+      localStorage.setItem("darkMode", "enabled");
+      if (darkModeIcon) darkModeIcon.textContent = "☀️";
+      if (darkModeText) darkModeText.textContent = "Light Mode";
+      if (darkModeToggle) darkModeToggle.setAttribute("aria-label", "Switch to light mode");
+    } else {
+      localStorage.setItem("darkMode", "disabled");
+      if (darkModeIcon) darkModeIcon.textContent = "🌙";
+      if (darkModeText) darkModeText.textContent = "Dark Mode";
+      if (darkModeToggle) darkModeToggle.setAttribute("aria-label", "Switch to dark mode");
+    }
+  }
+
+  // Event listener for dark mode toggle
+  if (darkModeToggle) {
+    darkModeToggle.addEventListener("click", toggleDarkMode);
+  }
+
   // Activity categories with corresponding colors
   const activityTypes = {
     sports: { label: "Sports", color: "#e8f5e9", textColor: "#2e7d32" },
@@ -862,6 +909,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // Initialize app
+  initializeDarkMode();
   checkAuthentication();
   initializeFilters();
   fetchActivities();

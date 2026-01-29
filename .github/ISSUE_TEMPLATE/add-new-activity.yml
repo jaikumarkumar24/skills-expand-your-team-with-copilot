@@ -1,0 +1,118 @@
+name: Add New Activity
+description: Request to add a new extracurricular activity to the system
+title: "[NEW ACTIVITY]: "
+labels: ["enhancement", "activity"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Add a New Extracurricular Activity
+        
+        Use this form to request adding a new activity to Mergington High School's activity system.
+        Please provide all the details below so the system can be updated correctly.
+
+  - type: input
+    id: activity-name
+    attributes:
+      label: Activity Name
+      description: What is the name of the new activity?
+      placeholder: e.g., "Photography Club", "Cooking Class", "Yoga Sessions"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Activity Description
+      description: Provide a detailed description of the activity (what students will do, learn, or experience)
+      placeholder: e.g., "Learn the basics of photography, including composition, lighting, and editing techniques. Students will work on projects and build a portfolio."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: days
+    attributes:
+      label: Which day(s) will this activity meet?
+      description: Select all days that apply
+      multiple: true
+      options:
+        - Monday
+        - Tuesday
+        - Wednesday
+        - Thursday
+        - Friday
+        - Saturday
+        - Sunday
+    validations:
+      required: true
+
+  - type: input
+    id: start-time
+    attributes:
+      label: Start Time
+      description: What time does the activity start? (Use 24-hour format)
+      placeholder: "e.g., 15:30 for 3:30 PM or 07:00 for 7:00 AM"
+    validations:
+      required: true
+
+  - type: input
+    id: end-time
+    attributes:
+      label: End Time
+      description: What time does the activity end? (Use 24-hour format)
+      placeholder: "e.g., 17:00 for 5:00 PM or 08:30 for 8:30 AM"
+    validations:
+      required: true
+
+  - type: input
+    id: max-participants
+    attributes:
+      label: Maximum Number of Participants
+      description: How many students can participate at most?
+      placeholder: e.g., 20
+    validations:
+      required: true
+
+  - type: textarea
+    id: initial-participants
+    attributes:
+      label: Initial Participants (Optional)
+      description: List any students already signed up (one email per line)
+      placeholder: |
+        student1@mergington.edu
+        student2@mergington.edu
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional Information
+      description: Any other details or special requirements for this activity?
+      placeholder: e.g., "Requires parental consent form", "Students need to bring their own supplies"
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Acceptance Criteria
+        
+        - The new activity should appear in the activities list on the website
+        - Students should be able to filter and find the activity by day and time
+        - The activity should show the correct schedule and participant count
+        - Teachers should be able to register students for the activity (when logged in)
+        
+        ## Implementation Hints
+        
+        - Add the activity data to `src/backend/database.py` in the `initial_activities` dictionary
+        - Follow the same structure as existing activities
+        - Use 24-hour time format (HH:MM) for start_time and end_time
+        - The schedule_details.days should be an array of day names
+        - Initialize participants as an empty array or with the provided emails
+        
+        ## Related Files
+        
+        - `src/backend/database.py` - Where activities are defined
+        - `src/backend/routers/activities.py` - Activity API endpoints
+        - `src/static/index.html` - Where activities are displayed

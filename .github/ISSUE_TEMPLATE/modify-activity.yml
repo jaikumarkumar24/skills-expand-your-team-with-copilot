@@ -1,0 +1,139 @@
+name: Modify Existing Activity
+description: Request changes to an existing extracurricular activity
+title: "[MODIFY ACTIVITY]: "
+labels: ["enhancement", "activity"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Modify an Existing Activity
+        
+        Use this form to request changes to an existing activity in the system.
+        Only fill in the fields that need to be changed.
+
+  - type: input
+    id: activity-name
+    attributes:
+      label: Activity Name
+      description: Which activity needs to be modified?
+      placeholder: e.g., "Chess Club", "Soccer Team"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: changes-needed
+    attributes:
+      label: What needs to be changed?
+      description: Select all that apply
+      options:
+        - label: Description
+        - label: Schedule (days/times)
+        - label: Maximum participants
+        - label: Activity name
+
+  - type: textarea
+    id: new-description
+    attributes:
+      label: New Description (if applicable)
+      description: Provide the updated description for this activity
+      placeholder: Enter the new description text
+    validations:
+      required: false
+
+  - type: dropdown
+    id: new-days
+    attributes:
+      label: New Schedule Days (if applicable)
+      description: Select the new days this activity will meet
+      multiple: true
+      options:
+        - Monday
+        - Tuesday
+        - Wednesday
+        - Thursday
+        - Friday
+        - Saturday
+        - Sunday
+    validations:
+      required: false
+
+  - type: input
+    id: new-start-time
+    attributes:
+      label: New Start Time (if applicable)
+      description: Enter the new start time in 24-hour format
+      placeholder: "e.g., 15:30 for 3:30 PM"
+    validations:
+      required: false
+
+  - type: input
+    id: new-end-time
+    attributes:
+      label: New End Time (if applicable)
+      description: Enter the new end time in 24-hour format
+      placeholder: "e.g., 17:00 for 5:00 PM"
+    validations:
+      required: false
+
+  - type: input
+    id: new-max-participants
+    attributes:
+      label: New Maximum Participants (if applicable)
+      description: Enter the new maximum number of participants
+      placeholder: e.g., 25
+    validations:
+      required: false
+
+  - type: input
+    id: new-activity-name
+    attributes:
+      label: New Activity Name (if renaming)
+      description: Enter the new name for this activity
+      placeholder: e.g., "Advanced Chess Club"
+    validations:
+      required: false
+
+  - type: textarea
+    id: reason
+    attributes:
+      label: Reason for Change
+      description: Why is this change needed?
+      placeholder: e.g., "The room availability changed", "Need to accommodate more students"
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-notes
+    attributes:
+      label: Additional Notes
+      description: Any other information about this change?
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Acceptance Criteria
+        
+        - The activity information should be updated in the system
+        - The changes should be visible on the website immediately
+        - Existing participant registrations should remain intact (unless removing participants is part of the request)
+        - The activity should still be filterable by the new schedule if changed
+        
+        ## Implementation Hints
+        
+        - Update the activity data in `src/backend/database.py` in the `initial_activities` dictionary
+        - If renaming the activity, update the key in the dictionary and the `_id` field
+        - Preserve the existing participants array unless specifically asked to modify it
+        - Ensure the schedule format matches existing activities (24-hour time as strings)
+        
+        ## Related Files
+        
+        - `src/backend/database.py` - Where activity definitions are stored
+        - `src/backend/routers/activities.py` - May need updates if changing activity name
+        
+        ## Important Notes
+        
+        - Changing an activity name requires updating it everywhere it's referenced
+        - Be careful not to lose existing participant data
+        - Test the changes by viewing the activity on the website

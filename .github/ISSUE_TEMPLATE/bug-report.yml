@@ -1,0 +1,137 @@
+name: Report a Bug
+description: Report a problem with the website or system functionality
+title: "[BUG]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Report a Bug
+        
+        Use this form to report any problems you're experiencing with the Mergington High School Activities website.
+        The more details you provide, the easier it will be to fix the issue.
+
+  - type: textarea
+    id: problem-description
+    attributes:
+      label: What's not working?
+      description: Describe the problem you're experiencing in simple terms
+      placeholder: e.g., "When I try to sign up a student for Soccer Team, I get an error message"
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: What should happen instead?
+      description: Describe what you expected to happen
+      placeholder: e.g., "The student should be added to the Soccer Team and I should see a success message"
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: List the exact steps to make the problem happen
+      placeholder: |
+        1. Log in as a teacher
+        2. Click on "Soccer Team" activity
+        3. Click "Register Student"
+        4. Enter student email address: student@mergington.edu
+        5. Click "Register"
+        6. See error message
+    validations:
+      required: true
+
+  - type: dropdown
+    id: affected-area
+    attributes:
+      label: Which part of the website has the problem?
+      options:
+        - Activities list/viewing
+        - Student registration
+        - Filtering activities
+        - Login system
+        - Dark mode
+        - Search functionality
+        - Other (please describe below)
+    validations:
+      required: true
+
+  - type: input
+    id: error-message
+    attributes:
+      label: Error Message (if any)
+      description: If you see an error message, type it exactly as shown
+      placeholder: e.g., "Activity not found" or "Authentication required"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: frequency
+    attributes:
+      label: How often does this happen?
+      options:
+        - Every time
+        - Sometimes
+        - Just once
+        - Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Which web browser are you using?
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - Other
+        - Don't know
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Information
+      description: Any other details that might help understand the problem?
+      placeholder: e.g., "This started happening yesterday", "Only happens with certain activities"
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Acceptance Criteria
+        
+        - The reported bug should be investigated and root cause identified
+        - The bug should be fixed with minimal changes to the codebase
+        - The fix should be tested to ensure it works correctly
+        - The fix should not break any existing functionality
+        
+        ## Investigation Hints
+        
+        - Check browser console for JavaScript errors
+        - Review relevant Python API endpoints for errors
+        - Check database operations if related to data
+        - Test the reported steps to reproduce the issue
+        - Look for similar issues in error handling
+        
+        ## Common Bug Locations
+        
+        - Frontend JavaScript: `src/static/app.js`
+        - Backend API: `src/backend/routers/activities.py` and `src/backend/routers/auth.py`
+        - Database: `src/backend/database.py`
+        - HTML structure: `src/static/index.html`
+        - Styles: `src/static/styles.css`
+        
+        ## Testing Guidelines
+        
+        - Test the fix in the browser
+        - Verify all related functionality still works
+        - Test edge cases (empty data, invalid input, etc.)
+        - Check that error messages are clear and helpful

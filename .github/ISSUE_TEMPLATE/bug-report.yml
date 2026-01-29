@@ -38,7 +38,7 @@ body:
         1. Log in as a teacher
         2. Click on "Soccer Team" activity
         3. Click "Register Student"
-        4. Enter email address student@mergington.edu
+        4. Enter student email address: student@mergington.edu
         5. Click "Register"
         6. See error message
     validations:

@@ -5,7 +5,10 @@ A super simple website application that allows students to view and sign up for 
 ## Features
 
 - View all available extracurricular activities
-- Sign up for activities
+- Filter activities by day, time, and category
+- Search for activities
+- Sign up for activities (teacher authentication required)
+- Dark mode support
 
 ## For Teachers
 

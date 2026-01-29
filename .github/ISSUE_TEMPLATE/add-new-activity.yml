@@ -101,7 +101,7 @@ body:
         - The new activity should appear in the activities list on the website
         - Students should be able to filter and find the activity by day and time
         - The activity should show the correct schedule and participant count
-        - Students should be able to sign up for the activity (when logged in as a teacher)
+        - Teachers should be able to register students for the activity (when logged in)
         
         ## Implementation Hints
         

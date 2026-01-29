@@ -518,6 +518,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Display based on view mode
     if (viewMode === "group") {
       displayGroupedActivities(filteredActivities);
+    } else if (viewMode === "calendar") {
+      displayCalendarView(filteredActivities);
     } else {
       displayFlatActivities(filteredActivities);
     }
@@ -574,6 +576,174 @@ document.addEventListener("DOMContentLoaded", () => {
         groupContainer.appendChild(card);
       });
     });
+  }
+
+  // Function to display activities in calendar view
+  function displayCalendarView(activities) {
+    // Days of the week in order (Sunday to Saturday)
+    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    
+    // Time slots from 6 AM to 6 PM (in 24-hour format)
+    const timeSlots = [];
+    for (let hour = 6; hour <= 18; hour++) {
+      timeSlots.push(`${hour.toString().padStart(2, '0')}:00`);
+    }
+    
+    // Create calendar container
+    const calendarContainer = document.createElement("div");
+    calendarContainer.className = "calendar-view";
+    
+    const calendarGrid = document.createElement("div");
+    calendarGrid.className = "calendar-grid";
+    
+    // Add header row
+    const timeHeaderCell = document.createElement("div");
+    timeHeaderCell.className = "calendar-header";
+    timeHeaderCell.textContent = "Time";
+    calendarGrid.appendChild(timeHeaderCell);
+    
+    daysOfWeek.forEach(day => {
+      const dayHeader = document.createElement("div");
+      dayHeader.className = "calendar-header";
+      dayHeader.textContent = day;
+      calendarGrid.appendChild(dayHeader);
+    });
+    
+    // Create a map to hold activities by day and time slot
+    const activityMap = {};
+    daysOfWeek.forEach(day => {
+      activityMap[day] = {};
+      timeSlots.forEach(time => {
+        activityMap[day][time] = [];
+      });
+    });
+    
+    // Populate activity map
+    Object.entries(activities).forEach(([name, details]) => {
+      if (!details.schedule_details) return;
+      
+      const { days, start_time, end_time } = details.schedule_details;
+      
+      days.forEach(day => {
+        if (daysOfWeek.includes(day)) {
+          // Find which time slot this activity starts in
+          const startHour = parseInt(start_time.split(':')[0]);
+          const endHour = parseInt(end_time.split(':')[0]);
+          const endMinute = parseInt(end_time.split(':')[1]);
+          
+          // Add activity to each hour it spans
+          for (let hour = startHour; hour <= endHour; hour++) {
+            const timeSlot = `${hour.toString().padStart(2, '0')}:00`;
+            if (activityMap[day] && activityMap[day][timeSlot]) {
+              // Only add to the starting hour to avoid duplicates
+              if (hour === startHour) {
+                activityMap[day][timeSlot].push({
+                  name,
+                  details,
+                  startTime: start_time,
+                  endTime: end_time
+                });
+              }
+            }
+          }
+        }
+      });
+    });
+    
+    // Add time rows with cells
+    timeSlots.forEach((timeSlot, timeIndex) => {
+      // Time label
+      const timeLabel = document.createElement("div");
+      timeLabel.className = "calendar-time-label";
+      const hour = parseInt(timeSlot.split(':')[0]);
+      const period = hour >= 12 ? 'PM' : 'AM';
+      const displayHour = hour % 12 || 12;
+      timeLabel.textContent = `${displayHour}:00 ${period}`;
+      calendarGrid.appendChild(timeLabel);
+      
+      // Day cells
+      daysOfWeek.forEach(day => {
+        const cell = document.createElement("div");
+        cell.className = "calendar-cell";
+        
+        const activitiesInSlot = activityMap[day][timeSlot];
+        
+        // Add activities to this cell
+        activitiesInSlot.forEach((activity, index) => {
+          const activityElement = createCalendarActivityElement(
+            activity.name, 
+            activity.details, 
+            activity.startTime, 
+            activity.endTime,
+            timeSlot,
+            index,
+            activitiesInSlot.length
+          );
+          cell.appendChild(activityElement);
+        });
+        
+        calendarGrid.appendChild(cell);
+      });
+    });
+    
+    calendarContainer.appendChild(calendarGrid);
+    activitiesList.appendChild(calendarContainer);
+  }
+  
+  // Function to create a calendar activity element
+  function createCalendarActivityElement(name, details, startTime, endTime, cellTime, overlapIndex, totalOverlap) {
+    const activityEl = document.createElement("div");
+    activityEl.className = "calendar-activity";
+    
+    // Determine activity type for color coding
+    const activityType = getActivityType(name, details.description);
+    activityEl.setAttribute("data-category", activityType);
+    
+    // Apply overlap styling if there are multiple activities
+    if (totalOverlap > 1) {
+      activityEl.classList.add(`overlap-${overlapIndex}`);
+    }
+    
+    // Calculate position and height based on time
+    const startHour = parseInt(startTime.split(':')[0]);
+    const startMinute = parseInt(startTime.split(':')[1]);
+    const endHour = parseInt(endTime.split(':')[0]);
+    const endMinute = parseInt(endTime.split(':')[1]);
+    const cellHour = parseInt(cellTime.split(':')[0]);
+    
+    // Calculate top position (in percentage of cell height)
+    const topPercentage = cellHour === startHour ? (startMinute / 60) * 100 : 0;
+    
+    // Calculate height (in percentage across potentially multiple cells)
+    const totalMinutes = (endHour * 60 + endMinute) - (startHour * 60 + startMinute);
+    const minutesInThisCell = cellHour === startHour 
+      ? Math.min(60 - startMinute, totalMinutes)
+      : Math.min(60, totalMinutes - ((cellHour - startHour) * 60));
+    const heightPercentage = (minutesInThisCell / 60) * 100;
+    
+    activityEl.style.top = `${topPercentage}%`;
+    activityEl.style.height = `${heightPercentage}%`;
+    
+    // Get enrollment info
+    const enrolled = details.participants.length;
+    const maxParticipants = details.max_participants;
+    
+    // Create activity content
+    activityEl.innerHTML = `
+      <div class="calendar-activity-name">${name}</div>
+      <div class="calendar-activity-enrollment">${enrolled}/${maxParticipants}</div>
+      <div class="calendar-tooltip">
+        <div class="calendar-tooltip-title">${name}</div>
+        <div class="calendar-tooltip-content">
+          <p><strong>Description:</strong> ${details.description}</p>
+          <p><strong>Schedule:</strong> ${formatSchedule(details)}</p>
+          <p><strong>Enrollment:</strong> ${enrolled}/${maxParticipants} students</p>
+          <p><strong>Spots Left:</strong> ${maxParticipants - enrolled}</p>
+        </div>
+      </div>
+    `;
+    
+    return activityEl;
   }
 
   // Function to create activity card element (extracted from renderActivityCard)
@@ -737,10 +907,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Update UI based on view mode
       const categoryFilterContainer = document.querySelector(".category-filter-container");
-      if (viewMode === "group") {
-        // Hide category filters in group mode
+      const dayFilterContainer = document.querySelector(".day-filter-container");
+      
+      if (viewMode === "group" || viewMode === "calendar") {
+        // Hide category filters in group and calendar mode
         categoryFilterContainer.style.display = "none";
-        // Reset to "all" when switching to group mode
+        // Reset to "all" when switching to group or calendar mode
         currentFilter = "all";
         categoryFilters.forEach((btn) => {
           if (btn.dataset.category === "all") {
@@ -752,6 +924,11 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         // Show category filters in filter mode
         categoryFilterContainer.style.display = "block";
+      }
+      
+      // In calendar mode, it's useful to keep day filters visible
+      if (viewMode === "calendar") {
+        dayFilterContainer.style.display = "block";
       }
 
       displayFilteredActivities();

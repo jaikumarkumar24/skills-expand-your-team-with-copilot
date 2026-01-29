@@ -1,23 +1,40 @@
 # Mergington High School Activities
 
-A website application that allows students to view extracurricular activities and teachers to manage student registrations.
+A web application that allows students to explore extracurricular activities and teachers to manage student registrations at Mergington High School.
 
 ## Features
 
-### For Students
-- View all available extracurricular activities with descriptions, schedules, and participant counts
-- Search activities by name
+### Student Features
+- Browse extracurricular activities with detailed information (description, schedule, participant count)
+- Search activities by name or description
 - Filter activities by:
   - Category (Sports, Arts, Academic, Community, Technology)
   - Day of the week (Monday-Sunday)
-  - Time (Before School, After School, Weekend)
-- Switch between Filter View and Group By Category view modes
-- Dark mode toggle for comfortable viewing
+  - Time of day (Before School, After School, Weekend)
+- Toggle between Filter View and Group by Category View
+- Dark mode support with theme persistence
 
-### For Teachers
-- Teacher login authentication system
-- Register students for activities using student email addresses
-- Manage activities (view participant lists and activity details)
+### Teacher Features
+- Secure authentication system (login/logout)
+- Register students for activities
+- Unregister students from activities
+- View current participant lists
+
+## Technical Stack
+
+### Frontend
+- HTML, CSS, and JavaScript
+- Responsive design with dark mode support
+- Dynamic filtering and search capabilities
+
+### Backend
+- FastAPI (Python web framework)
+- MongoDB for data storage
+- RESTful API with endpoints for:
+  - Activity retrieval and filtering
+  - Student registration management
+  - Teacher authentication
+- Argon2 password hashing for security
 
 ## Development Guide
 

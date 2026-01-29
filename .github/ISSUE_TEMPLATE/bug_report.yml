@@ -1,0 +1,85 @@
+name: Bug Report
+description: Report a problem with the school activities website
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug! Please provide as much detail as possible so we can fix it quickly.
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Bug Description
+      description: What is going wrong? What did you expect to happen?
+      placeholder: "Example: The website colors are blue, but our school colors are white and lime green."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: How can we see this bug ourselves?
+      placeholder: |
+        Example:
+        1. Go to the website home page
+        2. Look at the header background color
+        3. Notice it's blue instead of lime green
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: What should happen instead?
+      placeholder: "Example: The header should use school colors (white and lime green) and display our school mascot."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: affected-area
+    attributes:
+      label: Which part of the website has the bug?
+      options:
+        - Activity listings and display
+        - Filters and search
+        - Student registration
+        - Visual design and colors
+        - Login and authentication
+        - Loading and performance
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: How serious is this bug?
+      options:
+        - Low - Minor issue, doesn't affect functionality
+        - Medium - Annoying but can work around it
+        - High - Blocks important functionality
+        - Critical - Website is broken or unusable
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or Examples
+      description: If helpful, add screenshots or examples showing the bug
+      placeholder: Drag and drop images here or paste URLs
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional Information
+      description: Anything else we should know?
+      placeholder: Add any other context about the problem here.
+    validations:
+      required: false

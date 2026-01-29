@@ -36,6 +36,10 @@ A web application that allows students to explore extracurricular activities and
   - Teacher authentication
 - Argon2 password hashing for security
 
+## For Teachers
+
+Need to request a change, fix a bug, or update content? See our [How to Request Changes Guide](../docs/how-to-request-changes.md) to learn how to create issues without writing code.
+
 ## Development Guide
 
 For detailed setup and development instructions, please refer to our [Development Guide](../docs/how-to-develop.md).

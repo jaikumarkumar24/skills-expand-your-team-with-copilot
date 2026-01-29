@@ -1,0 +1,93 @@
+name: UI/Design Change
+description: Request changes to the visual appearance or user interface
+title: "[Design]: "
+labels: ["design", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for your design suggestion! Help us understand what visual changes you'd like to see.
+
+  - type: textarea
+    id: current-design
+    attributes:
+      label: Current Design Issue
+      description: What about the current design isn't working?
+      placeholder: "Example: The dark mode toggle is hard to find and students keep asking where it is."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-design
+    attributes:
+      label: Proposed Design Change
+      description: What should the new design look like? Be specific about colors, layout, positioning, etc.
+      placeholder: |
+        Example: 
+        - Move the dark mode toggle to the top right corner next to the login button
+        - Make it more prominent with a moon/sun icon
+        - Keep the setting saved so students don't have to toggle it every time
+    validations:
+      required: true
+
+  - type: dropdown
+    id: design-type
+    attributes:
+      label: What type of design change is this?
+      options:
+        - Colors and branding
+        - Layout and positioning
+        - Typography and fonts
+        - Icons and images
+        - Buttons and controls
+        - Mobile responsiveness
+        - Accessibility improvement
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Success Criteria
+      description: How will we know this design change is complete?
+      placeholder: |
+        Example:
+        - Toggle button is visible in top right corner
+        - Icon changes from moon to sun based on mode
+        - Dark mode preference is saved
+        - All text remains readable in both modes
+    validations:
+      required: true
+
+  - type: textarea
+    id: design-references
+    attributes:
+      label: Design References or Examples
+      description: Do you have examples of similar designs that work well? Links, screenshots, or descriptions
+      placeholder: Add any links, screenshots, or examples that inspire this design change
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: considerations
+    attributes:
+      label: Design Considerations
+      description: Check any that apply
+      options:
+        - label: This should work on mobile devices
+        - label: This affects accessibility (screen readers, color contrast, etc.)
+        - label: This should match our school branding
+        - label: This needs to work in both light and dark mode
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this design change?
+      options:
+        - Low - Nice to have
+        - Medium - Would improve experience
+        - High - Really needed soon
+    validations:
+      required: true

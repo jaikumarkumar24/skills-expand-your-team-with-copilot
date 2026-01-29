@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: General Question or Discussion
+    url: https://github.com/jaikumarkumar24/skills-expand-your-team-with-copilot/discussions
+    about: For questions or general discussions, please use GitHub Discussions
+  - name: Development Guide
+    url: https://github.com/jaikumarkumar24/skills-expand-your-team-with-copilot/blob/main/docs/how-to-develop.md
+    about: Learn how to set up and develop the application

@@ -1,0 +1,149 @@
+name: Feature Request
+description: Suggest a new feature or functionality for the website
+title: "[FEATURE]: "
+labels: ["enhancement", "feature-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Request a New Feature
+        
+        Use this form to suggest new functionality for the Mergington High School Activities website.
+        Describe what you'd like to be able to do that isn't currently possible.
+
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: What feature would you like?
+      description: Describe the new feature or functionality in simple terms
+      placeholder: e.g., "I'd like students to be able to see which of their friends are signed up for each activity"
+    validations:
+      required: true
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Who would use this and why?
+      description: Explain who would benefit and what problem this solves
+      placeholder: e.g., "Teachers and students would use this to help students find activities their friends are in, making them more likely to join"
+    validations:
+      required: true
+
+  - type: textarea
+    id: how-it-works
+    attributes:
+      label: How should it work?
+      description: Describe how you imagine this feature working (the user experience)
+      placeholder: |
+        1. Student views an activity
+        2. Below the activity description, they see "Your friends in this activity: John, Sarah"
+        3. This helps them decide if they want to join
+    validations:
+      required: true
+
+  - type: dropdown
+    id: user-type
+    attributes:
+      label: Who is this feature primarily for?
+      options:
+        - Students
+        - Teachers
+        - Both students and teachers
+        - Administrators
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: How important is this feature?
+      options:
+        - Nice to have
+        - Would be helpful
+        - Very important
+        - Essential for daily use
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Current Workaround
+      description: How do you handle this need currently (if at all)?
+      placeholder: e.g., "Currently students have to manually check each activity and make a list"
+    validations:
+      required: false
+
+  - type: textarea
+    id: similar-features
+    attributes:
+      label: Similar Features You've Seen
+      description: Have you seen this feature on other websites or apps? Describe it.
+      placeholder: e.g., "Similar to how Facebook shows mutual friends"
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: feature-type
+    attributes:
+      label: What type of feature is this? (select all that apply)
+      options:
+        - label: Data/information display
+        - label: New user action or interaction
+        - label: Filtering or searching
+        - label: Reporting or analytics
+        - label: Communication or notifications
+        - label: Data management
+        - label: Integration with other systems
+
+  - type: textarea
+    id: additional-details
+    attributes:
+      label: Additional Details
+      description: Any other information about this feature request?
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Acceptance Criteria
+        
+        - The feature should be implemented as described in this request
+        - The feature should be intuitive and easy to use
+        - The feature should integrate smoothly with existing functionality
+        - The feature should not break or interfere with current features
+        - The feature should be tested thoroughly before deployment
+        
+        ## Implementation Hints
+        
+        - Review the existing codebase structure before starting
+        - Consider if this requires new database fields or collections
+        - Plan the API endpoints if backend changes are needed
+        - Design the UI/UX before implementing frontend code
+        - Keep the implementation simple and maintainable
+        
+        ## Technical Considerations
+        
+        - **Backend API**: `src/backend/routers/` - Add new endpoints if needed
+        - **Database**: `src/backend/database.py` - Add new data structures
+        - **Frontend HTML**: `src/static/index.html` - Add new UI elements
+        - **Frontend JavaScript**: `src/static/app.js` - Add new functionality
+        - **Styling**: `src/static/styles.css` - Style new elements
+        
+        ## Development Steps
+        
+        1. Understand the feature requirements completely
+        2. Plan the implementation (backend, frontend, database changes)
+        3. Implement backend changes (if needed)
+        4. Implement frontend changes
+        5. Test the feature thoroughly
+        6. Ensure it works with existing features
+        7. Test edge cases and error handling
+        
+        ## Important Constraints
+        
+        - Use only HTML, CSS, JavaScript, and Python
+        - Keep the user experience simple for non-technical users
+        - Maintain the existing code structure and style
+        - Ensure changes are maintainable by teachers with limited coding experience

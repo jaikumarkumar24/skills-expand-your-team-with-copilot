@@ -1,0 +1,151 @@
+name: Change Website Appearance
+description: Request visual or styling changes to the website
+title: "[UI CHANGE]: "
+labels: ["enhancement", "ui"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Change Website Appearance
+        
+        Use this form to request changes to how the website looks or is organized.
+        This could include colors, layout, fonts, spacing, or any visual elements.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part of the website needs visual changes?
+      options:
+        - Header/title area
+        - Activities cards/list
+        - Filters and search
+        - Buttons
+        - Colors/theme
+        - Text and fonts
+        - Spacing and layout
+        - Dark mode
+        - Overall design
+        - Other (describe below)
+    validations:
+      required: true
+
+  - type: textarea
+    id: current-appearance
+    attributes:
+      label: Current Appearance
+      description: Describe how it looks now
+      placeholder: e.g., "The activity cards are plain white boxes with black text"
+    validations:
+      required: true
+
+  - type: textarea
+    id: desired-appearance
+    attributes:
+      label: Desired Appearance
+      description: Describe how you want it to look
+      placeholder: e.g., "The activity cards should have colored borders based on the activity type (blue for sports, green for academic, etc.)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: How important is this change?
+      options:
+        - Nice to have
+        - Somewhat important
+        - Very important
+        - Critical
+    validations:
+      required: true
+
+  - type: textarea
+    id: reason
+    attributes:
+      label: Why is this change needed?
+      description: Explain the reason for this visual change
+      placeholder: e.g., "Students have trouble distinguishing between different types of activities at a glance"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: specific-changes
+    attributes:
+      label: Type of visual changes needed (select all that apply)
+      options:
+        - label: Change colors
+        - label: Change fonts or text size
+        - label: Change layout or spacing
+        - label: Add new visual elements (icons, borders, etc.)
+        - label: Change button appearance
+        - label: Improve dark mode
+        - label: Make it easier to read
+        - label: Reorganize information
+
+  - type: input
+    id: color-preferences
+    attributes:
+      label: Color Preferences (if applicable)
+      description: Specify any color preferences using names or hex codes
+      placeholder: 'e.g., Use school colors - blue (#0066CC) and gold (#FFD700)'
+    validations:
+      required: false
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Examples or References
+      description: Describe or link to examples of what you have in mind (if any)
+      placeholder: e.g., "Like the card design on the school's main website", or describe a specific design pattern
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-notes
+    attributes:
+      label: Additional Notes
+      description: Any other details about the visual changes?
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Acceptance Criteria
+        
+        - The visual changes should be implemented as described
+        - The website should still be easy to use and navigate
+        - Changes should work in both light and dark mode (if applicable)
+        - The design should look good on different screen sizes
+        - Text should remain readable and accessible
+        
+        ## Implementation Hints
+        
+        - CSS styling is in `src/static/styles.css`
+        - HTML structure is in `src/static/index.html`
+        - Consider using CSS custom properties (variables) for colors
+        - Test changes in both light and dark mode
+        - Check that changes don't break the layout on mobile devices
+        - Ensure sufficient color contrast for accessibility
+        
+        ## Related Files
+        
+        - `src/static/styles.css` - All styling and appearance
+        - `src/static/index.html` - HTML structure and class names
+        - `src/static/app.js` - May need updates if adding interactive visual elements
+        
+        ## Design Principles
+        
+        - Keep it simple and clean
+        - Maintain consistency across the website
+        - Ensure good readability
+        - Consider users who may have visual impairments
+        - Test on different screen sizes
+        
+        ## Testing Checklist
+        
+        - [ ] Changes look good in light mode
+        - [ ] Changes look good in dark mode
+        - [ ] Layout works on mobile devices
+        - [ ] Text is readable and has good contrast
+        - [ ] All interactive elements (buttons, links) are clearly visible

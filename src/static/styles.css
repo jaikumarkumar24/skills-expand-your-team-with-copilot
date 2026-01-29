@@ -791,6 +791,48 @@ footer {
   gap: 8px;
 }
 
+/* Category-specific colors for group headers */
+.activity-group-header[data-category="sports"] h3 {
+  color: #2e7d32;
+}
+
+.activity-group-header[data-category="arts"] h3 {
+  color: #7b1fa2;
+}
+
+.activity-group-header[data-category="academic"] h3 {
+  color: #1565c0;
+}
+
+.activity-group-header[data-category="community"] h3 {
+  color: #e65100;
+}
+
+.activity-group-header[data-category="technology"] h3 {
+  color: #3949ab;
+}
+
+/* Dark mode category colors */
+body.dark-mode .activity-group-header[data-category="sports"] h3 {
+  color: #66bb6a;
+}
+
+body.dark-mode .activity-group-header[data-category="arts"] h3 {
+  color: #ba68c8;
+}
+
+body.dark-mode .activity-group-header[data-category="academic"] h3 {
+  color: #42a5f5;
+}
+
+body.dark-mode .activity-group-header[data-category="community"] h3 {
+  color: #ff9800;
+}
+
+body.dark-mode .activity-group-header[data-category="technology"] h3 {
+  color: #7986cb;
+}
+
 .activity-group-header .group-count {
   font-size: 0.9rem;
   font-weight: normal;

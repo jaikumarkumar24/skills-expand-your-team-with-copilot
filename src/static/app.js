@@ -555,8 +555,9 @@ document.addEventListener("DOMContentLoaded", () => {
       // Create group header
       const groupHeader = document.createElement("div");
       groupHeader.className = "activity-group-header";
+      groupHeader.setAttribute("data-category", type);
       groupHeader.innerHTML = `
-        <h3 style="color: ${typeInfo.textColor}">
+        <h3>
           ${typeInfo.label} <span class="group-count">(${items.length})</span>
         </h3>
       `;

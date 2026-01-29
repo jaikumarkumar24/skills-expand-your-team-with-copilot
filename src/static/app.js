@@ -88,7 +88,11 @@ document.addEventListener("DOMContentLoaded", () => {
   let searchQuery = "";
   let currentDay = "";
   let currentTimeRange = "";
-  let viewMode = "filter"; // "filter" or "group"
+  let viewMode = "filter"; // "filter" or "group" or "calendar"
+
+  // Calendar view constants
+  const CALENDAR_START_HOUR = 6;
+  const CALENDAR_END_HOUR = 18;
 
   // Authentication state
   let currentUser = null;
@@ -578,14 +582,34 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Helper function to escape HTML to prevent XSS
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  // Helper function to parse and validate time strings
+  function parseTime(timeStr) {
+    if (!timeStr || typeof timeStr !== 'string') return null;
+    const parts = timeStr.split(':');
+    if (parts.length !== 2) return null;
+    const hour = parseInt(parts[0], 10);
+    const minute = parseInt(parts[1], 10);
+    if (isNaN(hour) || isNaN(minute) || hour < 0 || hour > 23 || minute < 0 || minute > 59) {
+      return null;
+    }
+    return { hour, minute };
+  }
+
   // Function to display activities in calendar view
   function displayCalendarView(activities) {
     // Days of the week in order (Sunday to Saturday)
     const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     
-    // Time slots from 6 AM to 6 PM (in 24-hour format)
+    // Time slots from CALENDAR_START_HOUR to CALENDAR_END_HOUR (in 24-hour format)
     const timeSlots = [];
-    for (let hour = 6; hour <= 18; hour++) {
+    for (let hour = CALENDAR_START_HOUR; hour <= CALENDAR_END_HOUR; hour++) {
       timeSlots.push(`${hour.toString().padStart(2, '0')}:00`);
     }
     
@@ -624,27 +648,34 @@ document.addEventListener("DOMContentLoaded", () => {
       
       const { days, start_time, end_time } = details.schedule_details;
       
+      // Validate time format
+      const startTimeParsed = parseTime(start_time);
+      const endTimeParsed = parseTime(end_time);
+      
+      if (!startTimeParsed || !endTimeParsed) {
+        console.warn(`Invalid time format for activity "${name}": start_time=${start_time}, end_time=${end_time}`);
+        return;
+      }
+      
+      const startHour = startTimeParsed.hour;
+      const endHour = endTimeParsed.hour;
+      
+      // Skip activities outside the displayable range
+      if (startHour > CALENDAR_END_HOUR || endHour < CALENDAR_START_HOUR) {
+        return;
+      }
+      
       days.forEach(day => {
         if (daysOfWeek.includes(day)) {
-          // Find which time slot this activity starts in
-          const startHour = parseInt(start_time.split(':')[0]);
-          const endHour = parseInt(end_time.split(':')[0]);
-          const endMinute = parseInt(end_time.split(':')[1]);
-          
-          // Add activity to each hour it spans
-          for (let hour = startHour; hour <= endHour; hour++) {
-            const timeSlot = `${hour.toString().padStart(2, '0')}:00`;
-            if (activityMap[day] && activityMap[day][timeSlot]) {
-              // Only add to the starting hour to avoid duplicates
-              if (hour === startHour) {
-                activityMap[day][timeSlot].push({
-                  name,
-                  details,
-                  startTime: start_time,
-                  endTime: end_time
-                });
-              }
-            }
+          // Only add to the starting hour time slot
+          const timeSlot = `${startHour.toString().padStart(2, '0')}:00`;
+          if (activityMap[day] && activityMap[day][timeSlot]) {
+            activityMap[day][timeSlot].push({
+              name,
+              details,
+              startTime: start_time,
+              endTime: end_time
+            });
           }
         }
       });
@@ -700,16 +731,25 @@ document.addEventListener("DOMContentLoaded", () => {
     activityEl.setAttribute("data-category", activityType);
     
     // Apply overlap styling if there are multiple activities
-    if (totalOverlap > 1) {
+    if (totalOverlap > 1 && overlapIndex < 5) {
       activityEl.classList.add(`overlap-${overlapIndex}`);
     }
     
-    // Calculate position and height based on time
-    const startHour = parseInt(startTime.split(':')[0]);
-    const startMinute = parseInt(startTime.split(':')[1]);
-    const endHour = parseInt(endTime.split(':')[0]);
-    const endMinute = parseInt(endTime.split(':')[1]);
-    const cellHour = parseInt(cellTime.split(':')[0]);
+    // Parse and validate time values
+    const startTimeParsed = parseTime(startTime);
+    const endTimeParsed = parseTime(endTime);
+    const cellTimeParsed = parseTime(cellTime);
+    
+    if (!startTimeParsed || !endTimeParsed || !cellTimeParsed) {
+      console.warn(`Invalid time format for activity "${name}"`);
+      return activityEl; // Return empty element to avoid breaking the calendar
+    }
+    
+    const startHour = startTimeParsed.hour;
+    const startMinute = startTimeParsed.minute;
+    const endHour = endTimeParsed.hour;
+    const endMinute = endTimeParsed.minute;
+    const cellHour = cellTimeParsed.hour;
     
     // Calculate top position (in percentage of cell height)
     const topPercentage = cellHour === startHour ? (startMinute / 60) * 100 : 0;
@@ -728,15 +768,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const enrolled = details.participants.length;
     const maxParticipants = details.max_participants;
     
+    // Escape user-provided content to prevent XSS
+    const escapedName = escapeHtml(name);
+    const escapedDescription = escapeHtml(details.description);
+    const escapedSchedule = escapeHtml(formatSchedule(details));
+    
     // Create activity content
     activityEl.innerHTML = `
-      <div class="calendar-activity-name">${name}</div>
+      <div class="calendar-activity-name">${escapedName}</div>
       <div class="calendar-activity-enrollment">${enrolled}/${maxParticipants}</div>
       <div class="calendar-tooltip">
-        <div class="calendar-tooltip-title">${name}</div>
+        <div class="calendar-tooltip-title">${escapedName}</div>
         <div class="calendar-tooltip-content">
-          <p><strong>Description:</strong> ${details.description}</p>
-          <p><strong>Schedule:</strong> ${formatSchedule(details)}</p>
+          <p><strong>Description:</strong> ${escapedDescription}</p>
+          <p><strong>Schedule:</strong> ${escapedSchedule}</p>
           <p><strong>Enrollment:</strong> ${enrolled}/${maxParticipants} students</p>
           <p><strong>Spots Left:</strong> ${maxParticipants - enrolled}</p>
         </div>

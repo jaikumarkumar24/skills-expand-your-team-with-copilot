@@ -44,12 +44,12 @@ body:
     attributes:
       label: Which part of the website has the bug?
       options:
-        - Activity listings/display
+        - Activity listings and display
         - Filters and search
         - Student registration
-        - Visual design/colors
-        - Login/authentication
-        - Loading or performance
+        - Visual design and colors
+        - Login and authentication
+        - Loading and performance
         - Other
     validations:
       required: true

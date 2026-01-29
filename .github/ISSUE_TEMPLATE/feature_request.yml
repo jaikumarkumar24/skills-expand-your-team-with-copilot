@@ -45,11 +45,12 @@ body:
     attributes:
       label: Which part of the website does this affect?
       options:
-        - Activity listings/display
+        - Activity listings and display
         - Filters and search
         - Student registration
-        - Visual design/layout
-        - Backend/database
+        - Teacher login and authentication
+        - Visual design and layout
+        - Backend and database
         - Other
     validations:
       required: true

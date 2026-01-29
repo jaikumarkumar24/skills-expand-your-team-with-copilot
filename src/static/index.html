@@ -41,6 +41,20 @@
           <!-- Left Sidebar for Filters -->
           <aside class="sidebar-filters">
             <h3>Filter Activities</h3>
+            
+            <!-- View Mode Toggle -->
+            <div class="filter-container view-mode-container">
+              <div class="filter-label">View mode:</div>
+              <div class="view-mode-toggle">
+                <button class="view-mode-button active" data-mode="filter">
+                  Filter View
+                </button>
+                <button class="view-mode-button" data-mode="group">
+                  Group By Category
+                </button>
+              </div>
+            </div>
+            
             <!-- Search Box -->
             <div class="search-box">
               <input
@@ -53,7 +67,7 @@
               </button>
             </div>
 
-            <div class="filter-container">
+            <div class="filter-container category-filter-container">
               <div class="filter-label">Filter by category:</div>
               <div class="category-filters" id="category-filters">
                 <button class="category-filter active" data-category="all">

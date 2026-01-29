@@ -1,0 +1,79 @@
+name: Content Update
+description: Update text, activity data, or other content on the website
+title: "[Content]: "
+labels: ["content"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping keep our content up to date! Tell us what needs to be changed.
+
+  - type: dropdown
+    id: content-type
+    attributes:
+      label: What type of content needs updating?
+      options:
+        - Activity information (name, description, time, etc.)
+        - Website text and labels
+        - Help text or instructions
+        - Footer information
+        - Error messages
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: current-content
+    attributes:
+      label: Current Content
+      description: What does it say now? (Copy and paste the exact text if possible)
+      placeholder: 'Example: Current activity name is "Chess Club" meeting "Tuesdays at 3pm"'
+    validations:
+      required: true
+
+  - type: textarea
+    id: new-content
+    attributes:
+      label: New Content
+      description: What should it say instead? (Be exact - this will be copy/pasted into the code)
+      placeholder: 'Example: Activity name should be "Strategy Games Club" meeting "Tuesdays and Thursdays at 3:30pm"'
+    validations:
+      required: true
+
+  - type: textarea
+    id: location
+    attributes:
+      label: Where is this content located?
+      description: Which page or section? Be as specific as possible.
+      placeholder: 'Example: Main activities page, in the "Academic" category section'
+    validations:
+      required: true
+
+  - type: textarea
+    id: reason
+    attributes:
+      label: Reason for Change
+      description: Why does this need to be updated?
+      placeholder: "Example: The club expanded to include other strategy games and changed meeting times"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: update-scope
+    attributes:
+      label: What needs to be updated?
+      description: Check all that apply
+      options:
+        - label: Update existing content/text
+        - label: Add new content
+        - label: Remove outdated content
+        - label: Fix spelling or grammar
+
+  - type: textarea
+    id: additional-notes
+    attributes:
+      label: Additional Notes
+      description: Anything else we should know?
+      placeholder: Add any other relevant information here
+    validations:
+      required: false
